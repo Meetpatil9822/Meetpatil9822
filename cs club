@@ -1,0 +1,46 @@
+import java.util.Scanner;
+
+public class ReadabilityTest {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the text: ");
+        String text = scanner.nextLine();
+
+        int letters = 0;
+        int words = 0;
+        int sentences = 0;
+
+        // Count letters, words, and sentences
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (Character.isLetter(c)) {
+                letters++;
+            } else if (c == ' ') {
+                words++;
+            } else if (c == '.' || c == '!' || c == '?') {
+                sentences++;
+            }
+        }
+
+        // Adjust word count (one more than space count)
+        words++;
+
+        // Calculate L (letters per 100 words) and S (sentences per 100 words)
+        double L = (double) letters / words * 100;
+        double S = (double) sentences / words * 100;
+
+        // Calculate the Coleman-Liau index
+        double index = 0.0588 * L - 0.296 * S - 15.8;
+
+        // Round the index to the nearest integer
+        int gradeLevel = (int) Math.round(index);
+
+        // Determine and print the grade level
+        String gradeText = (gradeLevel < 1) ? "Grade 1 or below" :
+            (gradeLevel >= 16) ? "Grade 16+" : "Grade " + gradeLevel;
+        System.out.println(gradeText);
+
+        scanner.close();
+    }
+}
